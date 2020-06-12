@@ -1,10 +1,17 @@
-const csv = require ('csv-parser')
+const parse = require ('csv-parse')
 const fs = require ('fs')
-const results = []
 
-fs.createReadStream('./restaurantsa9126b3.csv')
-.pipe(csv())
-.on('data', (date) => results.push(data))
-.on('end', () => {
-    console.log(results)
+const csvData = [];
+
+fs.createReadStream(__dirname +'/restaurantsa9126b3.csv')
+.pipe(
+    parse({
+        delimiter: ','
+    }))
+.on('data', function (dataRow) {
+    csvData.push(dataRow)
+})
+
+.on('end', function () {
+    console.log(csvData)
 });
